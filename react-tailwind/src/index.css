@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn_next_step_reservation{
+    @apply font-bold py-3 px-8 w-64 text-white rounded-full bg-yellow-600 text-center;
+}
+
+.btn_next_step_reservation:focus{
+    @apply outline-none bg-yellow-500;
+}
+.blur{
+	backdrop-filter: blur(12px);
+	background: #ff980066;
+}
+
+/*-- reservation btn BACK step -- */
+.btn_back_step_reservation{
+    @apply font-bold  py-3 px-8 rounded-full border border-gray-300 text-gray-600 ;
+}
+.btn_back_step_reservation:hover{
+    @apply bg-gray-300
+}
+.btn_back_step_reservation:focus{
+    @apply outline-none
+}
