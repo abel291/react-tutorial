@@ -24,3 +24,11 @@
 .btn_back_step_reservation:focus{
     @apply outline-none
 }
+
+.form-input{
+    @apply focus:ring-yellow-400 focus:border-yellow-400 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md
+}
+
+.form-input-label{
+    @apply block font-semibold text-sm text-gray-600 
+}

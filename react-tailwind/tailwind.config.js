@@ -1,3 +1,4 @@
+const defaultTheme = require("tailwindcss/defaultTheme")
 module.exports = {
     purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
     darkMode: false, // or 'media' or 'class'
@@ -5,13 +6,17 @@ module.exports = {
         container: {
             padding: {
                 DEFAULT: "1rem",
-                sm: "2rem",
-                lg: "4rem",
-                xl: "5rem",
-                "2xl": "6rem",
+                sm: "1rem",
+                lg: "2rem",
+                xl: "3rem",
+                "2xl": "4rem",
             },
         },
-        extend: {},
+        extend: {
+            fontFamily: {
+                sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+            },
+        },
     },
     variants: {
         extend: {},

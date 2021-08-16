@@ -2,7 +2,8 @@ import React from "react"
 import Flatpickr from "react-flatpickr"
 import "flatpickr/dist/themes/material_green.css"
 import { Spanish } from "flatpickr/dist/l10n/es.js"
-import axios from "axios"
+import axios from "../helpers/axios"
+import ValidaterErrors from "../components/ValidaterErrors"
 
 export default function Step1Date({ data, updateData }) {
     const optionInputDate = {
@@ -21,22 +22,20 @@ export default function Step1Date({ data, updateData }) {
         updateData("errors", [])
 
         try {
-            const response = await axios.post(
-                "http://hotel-cartagena.test/api/reservation/step_1_check_date",
-                {
-                    start_date: data.startDate.toISOString().slice(0, 10), //format date 2020-12-12
-                    end_date: data.endDate.toISOString().slice(0, 10),
-                    adults: data.adults,
-                    kids: data.kids,
-                }
-            )
-            
+            const response = await axios.post("/reservation/step_1_check_date", {
+                start_date: data.startDate.toISOString().slice(0, 10), //format date 2020-12-12
+                end_date: data.endDate.toISOString().slice(0, 10),
+                adults: data.adults,
+                kids: data.kids,
+            })
+
             updateData("rooms", response.data.rooms)
             updateData("night", response.data.night)
+            updateData("client", response.data.client)
             updateData("step", 2)
-
+            updateData("discountCodeExmaple", response.data.discount_code_exmaple)
         } catch (errors) {
-            updateData("errors", errors)
+            ValidaterErrors(errors.response, updateData)
         } finally {
             updateData("isLoading", false)
         }
@@ -49,10 +48,7 @@ export default function Step1Date({ data, updateData }) {
                 <form className="space-y-4" onSubmit={handleSubmit}>
                     <div className="flex space-x-3">
                         <div className="w-1/2 space-y-1 ">
-                            <label
-                                className="block font-semibold text-gray-600 "
-                                htmlFor="start_date"
-                            >
+                            <label className="block font-semibold text-gray-600 " htmlFor="start_date">
                                 Fecha de inicio
                             </label>
                             <Flatpickr
@@ -77,10 +73,7 @@ export default function Step1Date({ data, updateData }) {
                         </div>
                         {/* input fecha final */}
                         <div className="w-1/2 space-y-1 ">
-                            <label
-                                className="block font-semibold text-gray-600 "
-                                htmlFor="end_date"
-                            >
+                            <label className="block font-semibold text-gray-600 " htmlFor="end_date">
                                 Fecha de final
                             </label>
                             <Flatpickr
@@ -99,10 +92,7 @@ export default function Step1Date({ data, updateData }) {
 
                     <div className="flex space-x-3 w-1/2">
                         <div className="w-1/2 space-y-1 ">
-                            <label
-                                className="  block font-semibold text-gray-600 "
-                                htmlFor="adults"
-                            >
+                            <label className="  block font-semibold text-gray-600 " htmlFor="adults">
                                 Adultos
                             </label>
 
@@ -141,10 +131,7 @@ export default function Step1Date({ data, updateData }) {
                                 <option value="5">5 Niños</option>
                                 <option value="6">6 Niños</option>
                             </select>
-                            <span
-                                x-text="errors.kids"
-                                className="pl-1 text-red-500 text-sm block"
-                            ></span>
+                            <span x-text="errors.kids" className="pl-1 text-red-500 text-sm block"></span>
                         </div>
                     </div>
                     <div className="text-right">

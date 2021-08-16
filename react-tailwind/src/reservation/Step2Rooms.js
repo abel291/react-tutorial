@@ -2,13 +2,12 @@ import React from "react"
 
 export default function Step2Rooms({ data, updateData, formatNumber }) {
     const handleSelectRoom = (idRoom) => {
-        
         let roomQuantity = document.getElementById("room_select_quantity_" + idRoom).value
         let roomSelected = data.rooms.find((x) => x.id === idRoom)
         let complements = roomSelected.complements
         let complementsIds = []
 
-        updateData("roomQuantity", roomQuantity)
+        updateData("roomQuantity", parseInt(roomQuantity))
         updateData("roomSelected", roomSelected)
         updateData("complements", complements)
         updateData("complementsIds", complementsIds)
@@ -24,12 +23,7 @@ export default function Step2Rooms({ data, updateData, formatNumber }) {
                         <div key={room.id} className="col-span-6 md:col-span-3 lg:col-span-2">
                             <div className="shadow-md hover:shadow-xl transition-shadow duration-300  rounded-lg overflow-hidden">
                                 <div className="relative overflow-hidden">
-                                    <a
-                                        href={"/room/" + room.slug}
-                                        target="_blank"
-                                        className="w-full  "
-                                        rel="noreferrer"
-                                    >
+                                    <a href={"/room/" + room.slug} target="_blank" className="w-full  " rel="noreferrer">
                                         <img
                                             src={"/img/rooms/thumbnail/" + room.thumbnail}
                                             alt={room.name}
@@ -39,9 +33,7 @@ export default function Step2Rooms({ data, updateData, formatNumber }) {
                                         <div className="text-white leading-tight space-y-1 py-4 px-4 absolute bottom-0 left-0">
                                             <h3 className="font-semibold text-xl">{room.name}</h3>
                                             <p className="text-xl font-light">
-                                                <span className="text-2xl font-semibold">
-                                                    {room.price}
-                                                </span>
+                                                <span className="text-2xl font-semibold">{formatNumber(room.price)}</span>
 
                                                 <span className="text-base">/ noche</span>
                                             </p>
@@ -62,17 +54,11 @@ export default function Step2Rooms({ data, updateData, formatNumber }) {
                                             className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
                                         >
                                             {room.price_per_quantity_room_selected &&
-                                                room.price_per_quantity_room_selected.map(
-                                                    (price, i) => (
-                                                        <option
-                                                            key={room.id + "-" + i}
-                                                            className="p-1"
-                                                            value={i}
-                                                        >
-                                                            {i + 1 + " - " + formatNumber(price)}
-                                                        </option>
-                                                    )
-                                                )}
+                                                room.price_per_quantity_room_selected.map((price, i) => (
+                                                    <option key={room.id + "-" + i} className="p-1" value={i + 1}>
+                                                        {i + 1 + " - " + formatNumber(price)}
+                                                    </option>
+                                                ))}
                                         </select>
                                     </div>
 
@@ -87,11 +73,8 @@ export default function Step2Rooms({ data, updateData, formatNumber }) {
                         </div>
                     ))}
                 </div>
-                <div className="flex space-x-3 justify-end">
-                    <button
-                        onClick={() => updateData("step", 2)}
-                        className="btn_back_step_reservation"
-                    >
+                <div className="flex space-x-3 ">
+                    <button onClick={() => updateData("step", 1)} className="btn_back_step_reservation">
                         Volver
                     </button>
                 </div>

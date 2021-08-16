@@ -1,5 +1,7 @@
 import React from "react"
-import axios from "axios"
+import axios from "../helpers/axios"
+import ValidaterErrors from "../components/ValidaterErrors"
+
 export default function Step3Complements({ data, updateData, formatNumber }) {
     const handleChecked = (checked, idComplements) => {
         if (checked) {
@@ -16,22 +18,31 @@ export default function Step3Complements({ data, updateData, formatNumber }) {
 
         try {
             const response = await axios.post(
-                "http://hotel-cartagena.test/api/reservation/step_3_confirmation",
+                "/reservation/step_3_confirmation",
                 {
+                    start_date: data.startDate.toISOString().slice(0, 10), //format date 2020-12-12
+                    end_date: data.endDate.toISOString().slice(0, 10),
+                    adults: data.adults,
+                    kids: data.kids,
+                    night: data.night,
                     room_id: data.roomSelected.id,
                     room_quantity: data.roomQuantity,
                     ids_complements_cheked: data.complementsIds,
                 }
-            )
-
+            )            
             updateData("complementsSelect", response.data.complements_cheked)
-            updateData("pricePorReservation", response.data.sub_total_price)
-            updateData("subTotalPrice", response.data.sub_total_price)
-            updateData("totalPrice", response.data.total_price)
+            updateData("pricePorReservation", response.data.price_per_reservation)
+            updateData("subTotalPrice", response.data.total_price)
+            updateData("totalPrice", response.data.total_price)            
+            
+            if (response.data.discount) {
+                updateData("discount", response.data.discount)
+            }
+            
             updateData("step", 4)
             
         } catch (errors) {
-            updateData("errors", errors)
+            ValidaterErrors(errors.response, updateData)
         } finally {
             updateData("isLoading", false)
         }
@@ -43,7 +54,7 @@ export default function Step3Complements({ data, updateData, formatNumber }) {
                     Agregue complementos adicionale
                 </h2>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {data.roomSelected.complements.map((complement) => (
                         <div
                             key={data.roomSelected.id + "-" + complement.id}

@@ -1,41 +1,19 @@
-import React, { useEffect, useRef } from "react";
-
+import React, { Fragment } from "react";
+import { Transition } from '@headlessui/react'
 export default function Loading({ isLoading }) {
-  const data = useRef(null);
-  const time = 0.15;
-  const scale = 0.95;
 
-  useEffect(() => {
-    if (isLoading) {
-      data.current.style.removeProperty("display");
-      setTimeout(function () {
-        data.current.style.opacity = "1";
-        data.current.style.transform = "scale(1)";
-      }, 0);
-    } else {
-      data.current.style.opacity = "0";
-      data.current.style.transform = "scale(" + scale + ")";
-
-      // data.current.style.transform= "scale(0.8)";
-      setTimeout(function () {
-        data.current.style.display = "none";
-      }, time * 1000);
-    }
-  }, [isLoading]);
 
   return (
-    <div
-      ref={data}
-      style={{
-        display: "none",
-        opacity: "0",
-        transform: "scale(" + scale + ")",
-        transformOrigin: "center center",
-        transitionProperty: "opacity,transform",
-        transitionDuration: time + "s",
-        transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-      }}
-      className={"flex absolute inset-0 blur items-center justify-center"}
+    <Transition
+          as={Fragment}
+          show={isLoading}
+          enter="transform transition duration-150"
+          enterFrom="opacity-0  scale-95"
+          enterTo="opacity-100 scale-100"
+          
+        >
+
+    <div className={"flex absolute inset-0 blur items-center justify-center"}
     >
       <div className="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-yellow-500 ">
         <svg
@@ -61,5 +39,6 @@ export default function Loading({ isLoading }) {
         <span>Processing</span>
       </div>
     </div>
+    </Transition>
   );
 }
