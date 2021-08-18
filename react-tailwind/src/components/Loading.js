@@ -13,7 +13,7 @@ export default function Loading({ isLoading }) {
           
         >
 
-    <div className={"flex absolute inset-0 blur items-center justify-center"}
+    <div className="flex absolute inset-0 blur items-center justify-center z-10"
     >
       <div className="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-yellow-500 ">
         <svg

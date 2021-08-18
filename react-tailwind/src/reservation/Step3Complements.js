@@ -49,16 +49,16 @@ export default function Step3Complements({ data, updateData, formatNumber }) {
     }
     return (
         <>
-            <div className="mx-auto max-w-5xl space-y-8">
-                <h2 className="text-3xl font-bold text-gray-700">
+            <div className="mx-auto max-w-5xl space-y-4 sm:space-y-8">
+                <h2 className="text-2xl font-bold text-gray-700">
                     Agregue complementos adicionale
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {data.roomSelected.complements.map((complement) => (
                         <div
                             key={data.roomSelected.id + "-" + complement.id}
-                            className="flex item-start border border-gray-200 p-4 rounded-md space-x-3"
+                            className="flex item-start shadow p-4 rounded-lg space-x-3 bg-white"
                         >
                             <div>
                                 <input
@@ -88,7 +88,7 @@ export default function Step3Complements({ data, updateData, formatNumber }) {
                     ))}
                 </div>
 
-                <div className="flex space-x-3 justify-end">
+                <div className="flex flex-wrap space-y-3 sm:space-y-0 sm:space-x-3 justify-end">
                     <button
                         onClick={() => updateData("step", 2)}
                         className="btn_back_step_reservation"

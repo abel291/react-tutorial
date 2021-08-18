@@ -1,4 +1,4 @@
-import React,{useRef} from "react"
+import React, { useRef } from "react"
 import Flatpickr from "react-flatpickr"
 import "flatpickr/dist/themes/material_green.css"
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
@@ -6,12 +6,11 @@ import ValidaterErrors from "../../components/ValidaterErrors.js"
 import axios from "../../helpers/axios"
 
 export default function Step4Form({ data, updateData }) {
-    
     const handleChangeInput = (e) => {
         let dataClient = { ...data.client, [e.target.name]: e.target.value }
         updateData("client", dataClient)
     }
-    
+
     const nameCardStripe = useRef()
 
     const stripe = useStripe()
@@ -51,7 +50,6 @@ export default function Step4Form({ data, updateData }) {
                 updateData("errors", "Al parecer hubo un error! El pago a través de su targeta no se pudo realizar.")
             }
         } else {
-
             console.log("[PaymentMethod]", paymentMethod)
             try {
                 const response = await axios.post("/reservation/step_4_finalize", {
@@ -71,23 +69,20 @@ export default function Step4Form({ data, updateData }) {
                 updateData("order", response.data.order)
                 updateData("create_date", response.data.create_date)
                 updateData("step", 5)
-                
-
-                
-            } catch (errors) {                
+            } catch (errors) {
                 ValidaterErrors(errors.response, updateData)
             } finally {
                 updateData("isLoading", false)
-                
             }
         }
     }
     return (
         <>
             <div>
-                <h2 className="text-xl font-medium mb-4 text-gray-800">Informacion de Contacto</h2>
+                <h2 className="text-2xl font-medium mb-4 text-gray-800">Informacion de Contacto</h2>
                 <div className="space-y-6">
-                    <div className="grid grid-cols-2 gap-4  ">
+                    <div className=" grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                        
                         <div>
                             <label htmlFor="name" className="form-input-label">
                                 Nombre y apellido
@@ -191,10 +186,9 @@ export default function Step4Form({ data, updateData }) {
                                     updateData("client", { ...data.client, check_in: hour })
                                 }}
                             />
-                            
                         </div>
 
-                        <div className="special_request col-span-2">
+                        <div className="special_request  sm:col-span-2">
                             <label htmlFor="special_request" className="form-input-label">
                                 Peticion especial
                             </label>
@@ -202,7 +196,7 @@ export default function Step4Form({ data, updateData }) {
                             <textarea
                                 name="special_request"
                                 id="special_request"
-                                rows="3"
+                                rows="5"
                                 className="mt-1 form-input text-sm"
                                 placeholder="Algo a tener en cuenta...."
                                 defaultValue={data.client.special_request}
@@ -220,7 +214,13 @@ export default function Step4Form({ data, updateData }) {
                         <label htmlFor="titleCard" className="form-input-label">
                             Titular de la targeta
                         </label>
-                        <input className="mt-1 form-input" id="titleCard" type="text" ref={nameCardStripe} defaultValue={data.client.name} />
+                        <input
+                            className="mt-1 form-input"
+                            id="titleCard"
+                            type="text"
+                            ref={nameCardStripe}
+                            defaultValue={data.client.name}
+                        />
                     </div>
                     <div>
                         <label htmlFor="name" className="form-input-label">
@@ -252,13 +252,20 @@ export default function Step4Form({ data, updateData }) {
                     </div>
                 </div>
             </div>
-            <button
-                    onClick={handleSubmit}
-                    disabled={!stripe}
-                    className="w-full bg-yellow-500 hover:bg-yellow-400 focus:bg-yellow-600 text-white py-3 text-center rounded-md font-semibold "
-                >
-                    Confirmar orden
+            <div className="flex flex-wrap space-y-3 md:space-y-0 md:space-x-3 justify-end">
+                <button onClick={() => updateData("step", 3)} className="btn_back_step_reservation">
+                    Volver
                 </button>
+
+                <button
+                onClick={handleSubmit}
+                disabled={!stripe}
+                className="btn_next_step_reservation"
+            >
+                Confirmar orden
+            </button>
+            </div>
+            
         </>
     )
 }

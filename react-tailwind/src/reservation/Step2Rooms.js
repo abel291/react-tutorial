@@ -16,18 +16,18 @@ export default function Step2Rooms({ data, updateData, formatNumber }) {
 
     return (
         <>
-            <div className="max-w-5xl mx-auto space-y-8">
-                <h2 className="text-4xl font-bold text-gray-700">Elija las Habitaciones</h2>
-                <div className="grid grid-cols-6 gap-6">
+            <div className="max-w-5xl mx-auto space-y-4 sm:space-y-8">
+                <h2 className="text-2xl font-bold text-gray-700">Elija las Habitaciones</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-4">
                     {data.rooms.map((room) => (
-                        <div key={room.id} className="col-span-6 md:col-span-3 lg:col-span-2">
-                            <div className="shadow-md hover:shadow-xl transition-shadow duration-300  rounded-lg overflow-hidden">
+                        <div key={room.id} className="shadow  rounded-lg overflow-hidden">
+                            
                                 <div className="relative overflow-hidden">
                                     <a href={"/room/" + room.slug} target="_blank" className="w-full  " rel="noreferrer">
                                         <img
                                             src={"/img/rooms/thumbnail/" + room.thumbnail}
                                             alt={room.name}
-                                            className="w-full h-64 object-cover transition duration-500 transform hover:scale-110 img-list-room"
+                                            className="w-full h-64 object-cover transition duration-500 img-list-room"
                                         />
 
                                         <div className="text-white leading-tight space-y-1 py-4 px-4 absolute bottom-0 left-0">
@@ -41,7 +41,7 @@ export default function Step2Rooms({ data, updateData, formatNumber }) {
                                     </a>
                                 </div>
 
-                                <div className="flex flex-wrap p-4  text-gray-600 border-gray-200 md:border-none border space-y-4">
+                                <div className="bg-white flex flex-wrap p-4  text-gray-600 space-y-4">
                                     <div className="flex items-center w-full text-sm space-x-4">
                                         <span className="font-bold">Camas: +{room.beds} </span>
                                         <span className="font-bold">Adultos: +{room.adults} </span>
@@ -64,12 +64,12 @@ export default function Step2Rooms({ data, updateData, formatNumber }) {
 
                                     <button
                                         onClick={() => handleSelectRoom(room.id)}
-                                        className="w-full py-2 px-4 bg-yellow-500 hover:bg-yellow-400 text-white font-bold rounded-full focus:outline-none "
+                                        className="w-full py-2 px-4 bg-yellow-500 hover:bg-yellow-400 text-white font-bold rounded-lg focus:outline-none "
                                     >
                                         Reservar
                                     </button>
                                 </div>
-                            </div>
+                            
                         </div>
                     ))}
                 </div>

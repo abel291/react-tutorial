@@ -43,11 +43,11 @@ export default function Step1Date({ data, updateData }) {
 
     return (
         <>
-            <div className="max-w-2xl mx-auto  text-gray-700 space-y-8">
-                <h2 className="text-4xl font-bold">Elija las Fechas</h2>
+            <div className="max-w-2xl mx-auto  text-gray-700 space-y-4 sm:space-y-8 ">
+                <h2 className="text-2xl font-semibold">Elija las Fechas</h2>
                 <form className="space-y-4" onSubmit={handleSubmit}>
-                    <div className="flex space-x-3">
-                        <div className="w-1/2 space-y-1 ">
+                    <div className="flex flex-wrap ">
+                        <div className="w-full sm:w-1/2 space-y-1 ">
                             <label className="block font-semibold text-gray-600 " htmlFor="start_date">
                                 Fecha de inicio
                             </label>
@@ -71,8 +71,9 @@ export default function Step1Date({ data, updateData }) {
 
                             <span className="pl-1 text-red-500 text-sm block"></span>
                         </div>
+                        
                         {/* input fecha final */}
-                        <div className="w-1/2 space-y-1 ">
+                        <div className="w-full sm:w-1/2 space-y-1 sm:pl-3 mt-4 sm:mt-0">
                             <label className="block font-semibold text-gray-600 " htmlFor="end_date">
                                 Fecha de final
                             </label>
@@ -90,7 +91,7 @@ export default function Step1Date({ data, updateData }) {
                         </div>
                     </div>
 
-                    <div className="flex space-x-3 w-1/2">
+                    <div className="flex space-x-3 w-full sm:w-1/2">
                         <div className="w-1/2 space-y-1 ">
                             <label className="  block font-semibold text-gray-600 " htmlFor="adults">
                                 Adultos
