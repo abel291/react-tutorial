@@ -19,11 +19,7 @@ function App() {
     useEffect(() => {
         //step 1
         if (data.step === 1) {
-            let startDate = new Date(new Date().toDateString())
-            let endDate = new Date(new Date().toDateString())
-            endDate.setDate(endDate.getDate() + 1) // addDays +1
-            updateData("endDate", endDate)
-            updateData("startDate", startDate)
+            
         }
     }, [data.step])
 

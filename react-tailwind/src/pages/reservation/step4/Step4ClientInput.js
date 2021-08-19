@@ -2,8 +2,8 @@ import React, { useRef } from "react"
 import Flatpickr from "react-flatpickr"
 import "flatpickr/dist/themes/material_green.css"
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
-import ValidaterErrors from "../../components/ValidaterErrors.js"
-import axios from "../../helpers/axios"
+import ValidaterErrors from "../../../components/ValidaterErrors.js"
+import axios from "../../../helpers/axios"
 
 export default function Step4Form({ data, updateData }) {
     const handleChangeInput = (e) => {

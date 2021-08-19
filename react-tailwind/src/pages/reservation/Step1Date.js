@@ -2,8 +2,8 @@ import React from "react"
 import Flatpickr from "react-flatpickr"
 import "flatpickr/dist/themes/material_green.css"
 import { Spanish } from "flatpickr/dist/l10n/es.js"
-import axios from "../helpers/axios"
-import ValidaterErrors from "../components/ValidaterErrors"
+import axios from "../../helpers/axios"
+import ValidaterErrors from "../../components/ValidaterErrors"
 
 export default function Step1Date({ data, updateData }) {
     const optionInputDate = {

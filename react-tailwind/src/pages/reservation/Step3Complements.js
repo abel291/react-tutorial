@@ -1,6 +1,6 @@
 import React from "react"
-import axios from "../helpers/axios"
-import ValidaterErrors from "../components/ValidaterErrors"
+import axios from "../../helpers/axios"
+import ValidaterErrors from "../../components/ValidaterErrors"
 
 export default function Step3Complements({ data, updateData, formatNumber }) {
     const handleChecked = (checked, idComplements) => {

@@ -1,12 +1,16 @@
-const data= {
+let startDate = new Date(new Date().toDateString())
+let endDate = new Date(new Date().toDateString())
+endDate.setDate(endDate.getDate() + 1) // addDays +1
+
+const data = {
     step: 1,
     isLoading: false,
     errors: [],
     errorsValidator: {},
 
     //step 1
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: startDate,
+    endDate: endDate,
     adults: 1,
     kids: 0,
     night: 0,

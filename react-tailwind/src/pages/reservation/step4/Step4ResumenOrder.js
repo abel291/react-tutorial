@@ -1,7 +1,7 @@
-import axios from "../../helpers/axios"
+import axios from "../../../helpers/axios"
 import React, { useState } from "react"
-import ValidaterErrors from "../../components/ValidaterErrors"
-import TableData from "../../components/TableData"
+import ValidaterErrors from "../../../components/ValidaterErrors"
+import TableData from "../TableData"
 
 export default function Step4ResumenOrder({ data, handleSubmit, stripe, formatNumber, updateData }) {
     const [discountInput, setDiscountInput] = useState("")

@@ -1,14 +1,14 @@
 import React from "react"
-import dataInit from "../helpers/dataInit"
+import dataInit from "../../helpers/dataInit"
 import { CheckCircleIcon } from "@heroicons/react/solid"
-import TableData from "../components/TableData"
+import TableData from "./TableData"
 export default function Step5Complete({ data, setData, formatNumber }) {
     const handleResetData = () => {
         setData(dataInit)
     }
     return (
         <>
-            <div className="max-w-5xl  mx-auto  space-y-4 md:space-y-8 text-sm">
+            <div className="max-w-3xl  mx-auto  space-y-4 md:space-y-8 text-sm">
                 <div className="space-y-4">
                     <h2 className="text-2xl font-medium text-gray-700">Orden Completada</h2>
 
