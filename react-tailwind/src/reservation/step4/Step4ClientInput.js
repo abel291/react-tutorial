@@ -2,29 +2,33 @@ import React, { useRef } from "react"
 import Flatpickr from "react-flatpickr"
 import "flatpickr/dist/themes/material_green.css"
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
-import ValidaterErrors from "../../../components/ValidaterErrors.js"
-import axios from "../../../helpers/axios"
+import ValidaterErrors from "../../components/ValidaterErrors.js"
 
-export default function Step4Form({ data, updateData }) {
+import { useReservation } from "../../context/ReservationContext.js"
+
+import apiClient from "../../auth/apiClient"
+export default function Step4Form() {
+    const { data, updateData, setErrors, setIsLoading } = useReservation()
+
     const handleChangeInput = (e) => {
         let dataClient = { ...data.client, [e.target.name]: e.target.value }
         updateData("client", dataClient)
     }
 
     const nameCardStripe = useRef()
-
     const stripe = useStripe()
     const elements = useElements()
     const handleSubmit = async (e) => {
         // Block native form submission.
         e.preventDefault()
-        updateData("errors", [])
+        setErrors([])
         let nameCardInpu = nameCardStripe.current.value
+
         if (!nameCardInpu) {
-            updateData("errors", ["El nombre del titular de la targeta es requerido"])
+            setErrors(["El nombre del titular de la targeta es requerido"])
             return
         }
-        updateData("isLoading", true)
+        setIsLoading(true)
 
         if (!stripe || !elements) {
             // Stripe.js aún no se ha cargado. Asegúrate de deshabilitar
@@ -43,16 +47,17 @@ export default function Step4Form({ data, updateData }) {
         })
 
         if (error) {
+            setIsLoading(false)
             console.log("[error]", error)
             if (error.type === "validation_error") {
-                updateData("errors", error.message)
+                setErrors(error.message)
             } else {
-                updateData("errors", "Al parecer hubo un error! El pago a través de su targeta no se pudo realizar.")
+                setErrors("Al parecer hubo un error! El pago a través de su targeta no se pudo realizar.")
             }
         } else {
-            console.log("[PaymentMethod]", paymentMethod)
-            try {
-                const response = await axios.post("/reservation/step_4_finalize", {
+            //console.log("[PaymentMethod]", paymentMethod)
+            await apiClient
+                .post("/api/reservation/step_4_finalize", {
                     start_date: data.startDate.toISOString().slice(0, 10), //format date 2020-12-12
                     end_date: data.endDate.toISOString().slice(0, 10),
                     adults: data.adults,
@@ -66,29 +71,32 @@ export default function Step4Form({ data, updateData }) {
                     email_confirmation: data.client.email_confirmation,
                     code: data.discount.code,
                 })
-                updateData("order", response.data.order)
-                updateData("create_date", response.data.create_date)
-                updateData("step", 5)
-            } catch (errors) {
-                ValidaterErrors(errors.response, updateData)
-            } finally {
-                updateData("isLoading", false)
-            }
+                .then((response) => {
+                    updateData("order", response.data.order)
+                    updateData("create_date", response.data.create_date)
+                    updateData("step", 5)
+                })
+                .catch(function (errors) {
+                    let msgErrors = ValidaterErrors(errors)
+                    setErrors(msgErrors)
+                })
+                .then(function () {
+                    setIsLoading(false)
+                })
         }
     }
     return (
         <>
             <div>
-                <h2 className="text-2xl font-medium mb-4 text-gray-800">Informacion de Contacto</h2>
+                {/* <h2 className="text-2xl font-medium mb-4 text-gray-800">Informacion de Contacto</h2> */}
                 <div className="space-y-6">
                     <div className=" grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                        
-                        <div>
+                        {/* <div>
                             <label htmlFor="name" className="form-input-label">
                                 Nombre y apellido
                             </label>
                             <input
-                                className="mt-1 form-input text-sm"
+                                className="mt-1 form-input form-input-border-normal "
                                 name="name"
                                 id="name"
                                 type="text"
@@ -102,7 +110,7 @@ export default function Step4Form({ data, updateData }) {
                                 Telefono
                             </label>
                             <input
-                                className="mt-1 form-input text-sm"
+                                className="mt-1 form-input form-input-border-normal "
                                 name="phone"
                                 id="phone"
                                 type="text"
@@ -118,7 +126,7 @@ export default function Step4Form({ data, updateData }) {
                             <input
                                 defaultValue={data.client.email}
                                 onChange={handleChangeInput}
-                                className="mt-1 form-input text-sm"
+                                className="mt-1 form-input form-input-border-normal "
                                 name="email"
                                 id="email"
                                 type="email"
@@ -130,7 +138,7 @@ export default function Step4Form({ data, updateData }) {
                                 Confirmar email
                             </label>
                             <input
-                                className="mt-1 form-input text-sm"
+                                className="mt-1 form-input form-input-border-normal "
                                 name="email_confirmation"
                                 id="email_confirmation"
                                 type="email"
@@ -144,7 +152,7 @@ export default function Step4Form({ data, updateData }) {
                                 Pais
                             </label>
                             <input
-                                className="mt-1 form-input text-sm"
+                                className="mt-1 form-input form-input-border-normal "
                                 name="country"
                                 id="country"
                                 type="text"
@@ -158,14 +166,14 @@ export default function Step4Form({ data, updateData }) {
                                 Ciudad
                             </label>
                             <input
-                                className="mt-1 form-input text-sm"
+                                className="mt-1 form-input form-input-border-normal "
                                 name="city"
                                 id="city"
                                 type="text"
                                 defaultValue={data.client.city}
                                 onChange={handleChangeInput}
                             />
-                        </div>
+                        </div> */}
 
                         <div>
                             <label htmlFor="check_in" className="block font-semibold text-sm text-gray-600">
@@ -173,7 +181,7 @@ export default function Step4Form({ data, updateData }) {
                             </label>
                             <Flatpickr
                                 name="check_in"
-                                className="mt-1 form-input text-sm"
+                                className="mt-1 form-input form-input-border-normal "
                                 options={{
                                     enableTime: true,
                                     noCalendar: true,
@@ -197,7 +205,7 @@ export default function Step4Form({ data, updateData }) {
                                 name="special_request"
                                 id="special_request"
                                 rows="5"
-                                className="mt-1 form-input text-sm"
+                                className="mt-1 form-input form-input-border-normal "
                                 placeholder="Algo a tener en cuenta...."
                                 defaultValue={data.client.special_request}
                                 onChange={handleChangeInput}
@@ -215,7 +223,7 @@ export default function Step4Form({ data, updateData }) {
                             Titular de la targeta
                         </label>
                         <input
-                            className="mt-1 form-input"
+                            className="mt-1 form-input form-input-border-normal"
                             id="titleCard"
                             type="text"
                             ref={nameCardStripe}
@@ -257,15 +265,10 @@ export default function Step4Form({ data, updateData }) {
                     Volver
                 </button>
 
-                <button
-                onClick={handleSubmit}
-                disabled={!stripe}
-                className="btn_next_step_reservation"
-            >
-                Confirmar orden
-            </button>
+                <button onClick={handleSubmit} disabled={!stripe} className="btn_next_step_reservation">
+                    Confirmar orden
+                </button>
             </div>
-            
         </>
     )
 }

@@ -1,73 +1,132 @@
+import { BookmarkIcon, MenuIcon, XIcon } from "@heroicons/react/outline"
 import { useState } from "react"
-import { NavLink } from "react-router-dom"
-export default function Header() {
-    const [open, setOpen] = useState(false)
+import { NavLink, useHistory } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
 
+export default function Header({ classStyle }) {
+    const [open, setOpen] = useState(false)
+    const auth = useAuth()
+    const history = useHistory()
+    const style='lg:bg-transparent lg:text-white absolute inset-x-0 rounded-b-xl';
+    
+    const style2='bg-white text-gray-600 ';
+    
     return (
-        <nav className="bg-yellow-500 lg:bg-transparent text-white lg:text-gray-700">
-            <div className="text-lg flex items-center justify-between pl-5  lg:hidden  ">
-                
-                <NavLink onClick={()=>(setOpen(false))}  exact to="/" className="font-bold">
-                    Cartagena{open}
+        // <nav className="bg-yellow-500 lg:bg-transparent text-white lg:text-gray-700 z-50">
+        <nav
+            className={
+                (open ? "bg-white" : "") +
+                " px-3 lg:px-10 xl:px-12 lg:py-3 mx-auto z-50 flex flex-col lg:flex-row lg:justify-between  lg:text-base font-medium lg:font-bold  absolute inset-x-0 "+style2
+            }
+        >
+            <div className={(open ? "text-gray-600" : "") + " px-2 py-4 text-lg flex items-center justify-between lg:hidden"}>
+                <NavLink onClick={() => setOpen(false)} exact to="/" className=" text-xl lg:text-2xl font-bold ">
+                    <div className=" leading-6">
+                        Hotel <br /> Cartagena
+                    </div>
                 </NavLink>
 
-                <button className="px-5 py-4 focus:outline-none" onClick={() => setOpen(!open)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+                <button className=" focus:outline-none  lg:hidden " onClick={() => setOpen(!open)}>
+                    {open ? <XIcon className="h-8 w-8" /> : <MenuIcon className="h-8 w-8" />}
                 </button>
             </div>
-            <div className={(!open ? "hidden" : "") + " lg:block relative"}>
+
+
+            <div className={(!open ? "hidden" : "") + " lg:block w-full"}>
                 <div
-                    className=" absolute lg:static  bg-yellow-500
-            w-full px-4 py-5 space-y-4 flex flex-col p-4 text-lg shadow-md justify-between
-            lg:flex-row lg:items-center lg:space-y-0 lg:px-10 lg:py-8  lg:bg-transparent lg:shadow-none  
-            "
+                    className="py-3  z-20 flex flex-col lg:flex-row lg:items-center lg:justify-between"
                 >
-                    <NavLink onClick={()=>(setOpen(false))}  exact to="/" className="hidden lg:inline-flex items-center text-2xl font-bold">
-                        <div className="leading-none">
-                            {" "}
-                            Hotel <br /> Cartagena{" "}
+                    <NavLink onClick={() => setOpen(false)} exact to="/" className="text-xl lg:text-2xl font-bold hidden lg:block">
+                        <div className=" leading-6">
+                            Hotel <br /> Cartagena
                         </div>
                     </NavLink>
-
-                    <div className=" font-bold flex  flex-col space-y-1 lg:flex-row lg:items-center">
-                        <NavLink  onClick={()=>(setOpen(false))} exact to="/" activeClassName="bg-yellow-600 " className="lg:hidden px-3 py-2 rounded-md ">
-                            Inicio
-                        </NavLink>
-
-                        <NavLink  onClick={()=>(setOpen(false))} to="/rooms" activeClassName="bg-yellow-600 lg:bg-transparent " className="px-3 py-2  lg:px-3 rounded-md hover:bg-yellow-400 lg:hover:bg-transparent">
+                    <div className=" flex flex-col space-y-1 lg:space-y-0 lg:flex-row flex-grow justify-center lg:items-center lg:space-x-4 ">
+                        <NavLink
+                            activeClassName="bg-gray-100 lg:bg-transparent lg:border-b-2 border-gray-600"
+                            onClick={() => setOpen(false)}
+                            to="/"
+                            className="px-3 py-2 lg:py-1 lg:px-0 rounded-md lg:rounded-none  "
+                        >
                             Habitaciones
                         </NavLink>
-                        <NavLink  onClick={()=>(setOpen(false))} to="/gallery" activeClassName="bg-yellow-600 lg:bg-transparent " className="px-3 py-2  lg:px-3 rounded-md  hover:bg-yellow-400 lg:hover:bg-transparent">
+                        <NavLink
+                            activeClassName="bg-gray-100 lg:bg-transparent lg:border-b-2 border-gray-600"
+                            onClick={() => setOpen(false)}
+                            to="/gallery"
+                            className="px-3 py-2 lg:py-1 lg:px-0 rounded-md "
+                        >
                             Galleria
                         </NavLink>
-                        <NavLink  onClick={()=>(setOpen(false))} to="/about-us" activeClassName="bg-yellow-600 lg:bg-transparent " className="px-3 py-2  lg:px-3 rounded-md  hover:bg-yellow-400 lg:hover:bg-transparent">
+                        <NavLink
+                            activeClassName="bg-gray-100 lg:bg-transparent lg:border-b-2 border-gray-600"
+                            onClick={() => setOpen(false)}
+                            to="/about-us"
+                            className="px-3 py-2 lg:py-1 lg:px-0 rounded-md "
+                        >
                             Nosotros
                         </NavLink>
-                        <NavLink  onClick={()=>(setOpen(false))} to="/blog" activeClassName="bg-yellow-600 lg:bg-transparent " className="px-3 py-2  lg:px-3 rounded-md  hover:bg-yellow-400 lg:hover:bg-transparent">
+                        <NavLink
+                            activeClassName="bg-gray-100 lg:bg-transparent lg:border-b-2 border-gray-600"
+                            onClick={() => setOpen(false)}
+                            to="/blog"
+                            className="px-3 py-2 lg:py-1 lg:px-0 rounded-md "
+                        >
                             Blog
                         </NavLink>
-                        <NavLink  onClick={()=>(setOpen(false))} to="/contact-us" activeClassName="bg-yellow-600 lg:bg-transparent " className="px-3 py-2  lg:px-3 rounded-md  hover:bg-yellow-400 lg:hover:bg-transparent">
+                        <NavLink
+                            activeClassName="bg-gray-100 lg:bg-transparent lg:border-b-2 border-gray-600"
+                            onClick={() => setOpen(false)}
+                            to="/contact-us"
+                            className="px-3 py-2 lg:py-1 lg:px-0 rounded-md "
+                        >
                             Contactos
                         </NavLink>
+                        <div className>
+                            <NavLink
+                                onClick={() => setOpen(false)}
+                                to="/reservation"
+                                className="px-3 py-2 lg:px-4 lg:py-2 lg:text-sm rounded-md lg:rounded-full lg:bg-yellow-500 lg:text-white inline-flex space-x-1 items-center font-bold focus:outline-none focus:shadow-outline"
+                            >
+                                <BookmarkIcon className="h-5 w-5"></BookmarkIcon>
+                                <span>Reservaciónes</span>
+                            </NavLink>
+                        </div>
                     </div>
-
-                    <div className="text-center mt-4">
-                        <NavLink onClick={()=>(setOpen(false))} 
-                            to="/reservation"
-                            className="px-5 py-2 bg-yellow-500 rounded-full text-white inline-flex space-x-1 items-center font-bold text-sm tracking-wide  focus:outline-none focus:shadow-outline"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
-                                <path
-                                    fillRule="evenodd"
-                                    d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"
-                                    clipRule="evenodd "
-                                />
-                            </svg>
-                            <span>Reservacion</span>
-                        </NavLink>
+                    <div className="mt-1 lg:mt-0 ">
+                        {auth.isLogged ? (
+                            <div className="flex items-center justify-between">
+                                <span>{auth.user.name}</span>
+                                <button
+                                    onClick={() => {
+                                        auth.logout(() => history.push("/login"))
+                                        setOpen(false)
+                                    }}
+                                    className="px-2 py-2  lg:px-3 rounded-md "
+                                >
+                                    Salir
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="flex items-center justify-center lg:justify-end">
+                                <NavLink
+                                    activeClassName="bg-gray-100 lg:bg-transparent lg:border-b-2 border-gray-600"
+                                    onClick={() => setOpen(false)}
+                                    to="/login"
+                                    className="px-3 py-2 lg:py-2 lg:px-2 rounded-md"
+                                >
+                                    Acceeder
+                                </NavLink>
+                                {/* <NavLink
+                                    activeClassName="bg-gray-100 lg:bg-transparent lg:border-b-2 border-gray-600"
+                                    onClick={() => setOpen(false)}
+                                    to="/register"
+                                    className="px-3 py-2 lg:py-2 lg:px-2 rounded-md"
+                                >
+                                    Registrarse
+                                </NavLink> */}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

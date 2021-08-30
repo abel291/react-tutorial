@@ -1,6 +1,10 @@
 import React from "react"
+import { useReservation } from "../context/ReservationContext";
 
-export default function Step2Rooms({ data, updateData, formatNumber }) {
+export default function Step2Rooms() {
+
+    const {data, updateData, formatNumber} = useReservation();   
+    
     const handleSelectRoom = (idRoom) => {
         let roomQuantity = document.getElementById("room_select_quantity_" + idRoom).value
         let roomSelected = data.rooms.find((x) => x.id === idRoom)
@@ -49,13 +53,13 @@ export default function Step2Rooms({ data, updateData, formatNumber }) {
                                     </div>
 
                                     <div className="w-full">
-                                        <select
+                                        <select defaultValue={data.roomSelected.id===room.id ? data.roomQuantity:1}
                                             id={"room_select_quantity_" + room.id}
                                             className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
                                         >
                                             {room.price_per_quantity_room_selected &&
                                                 room.price_per_quantity_room_selected.map((price, i) => (
-                                                    <option key={room.id + "-" + i} className="p-1" value={i + 1}>
+                                                    <option key={room.id + "-" + i} className="" value={i + 1} >
                                                         {i + 1 + " - " + formatNumber(price)}
                                                     </option>
                                                 ))}

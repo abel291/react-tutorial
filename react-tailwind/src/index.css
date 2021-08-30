@@ -1,51 +1,78 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.btn_next_step_reservation{
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"), url(./fonts/Roboto-Regular.ttf) format("ttf");
+}
+.btn_next_step_reservation {
     @apply font-bold py-3 px-8 text-white rounded-full bg-yellow-500 text-center;
 }
 
-.btn_next_step_reservation:focus{
+.btn_next_step_reservation:focus {
     @apply outline-none bg-yellow-500;
 }
 
-@media (min-width: 641px){
+@media (min-width: 641px) {
     .btn_next_step_reservation {
-        @apply w-64; 
+        @apply w-64;
     }
 }
-@media (max-width: 640px){
+@media (max-width: 640px) {
     .btn_next_step_reservation,
     .btn_back_step_reservation {
-        @apply w-full; 
+        @apply w-full;
     }
-    
 }
 
-
-.blur{
-	backdrop-filter: blur(12px);
-	background: #ff980066;
+.blur {
+    backdrop-filter: blur(12px);
+    background: #ff980066;
 }
 
 /*-- reservation btn BACK step -- */
-.btn_back_step_reservation{
-    @apply  font-bold  py-3 px-8 rounded-full border border-gray-300 text-gray-600 ;
+.btn_back_step_reservation {
+    @apply font-bold  py-3 px-8 rounded-full border border-gray-300 text-gray-600;
 }
-.btn_back_step_reservation:hover{
-    @apply bg-gray-300
+.btn_back_step_reservation:hover {
+    @apply bg-gray-300;
 }
-.btn_back_step_reservation:focus{
-    @apply outline-none
-}
-
-
-
-.form-input{
-    @apply focus:ring-yellow-400 focus:border-yellow-400 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md
+.btn_back_step_reservation:focus {
+    @apply outline-none;
 }
 
-.form-input-label{
-    @apply block font-semibold text-sm text-gray-600 
+.form-input {
+    @apply block w-full shadow-sm rounded-md;
 }
+
+.form-input-border-normal {
+    @apply focus:ring-yellow-400 focus:border-yellow-400 border-gray-300;
+}
+
+.form-input-border-error {
+    @apply border-red-500 ring-red-500 ring-1 focus:ring-red-500 focus:border-red-500;
+}
+
+.form-input-label {
+    @apply block font-semibold text-sm text-gray-600;
+}
+.form-input-label-error {
+    @apply text-sm text-red-600 font-normal;
+}
+.background-banner {
+    background-image: linear-gradient(#00000000, #00000040);
+}
+
+/* .fade-enter {
+    @apply opacity-0 z-10 transform scale-95  
+}
+
+.fade-enter.fade-enter-active {
+    
+    @apply  transition duration-150 opacity-100 transform scale-100
+}
+.fade-exit-active {
+    opacity: 0;
+    transition: 0ms;
+    
+} */

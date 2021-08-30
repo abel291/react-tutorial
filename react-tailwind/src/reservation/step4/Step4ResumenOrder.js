@@ -1,9 +1,12 @@
-import axios from "../../../helpers/axios"
 import React, { useState } from "react"
-import ValidaterErrors from "../../../components/ValidaterErrors"
+import ValidaterErrors from "../../components/ValidaterErrors"
 import TableData from "../TableData"
+import { useReservation } from "../../context/ReservationContext"
+import apiClient from "../../auth/apiClient"
+import { CheckCircleIcon } from "@heroicons/react/solid"
+export default function Step4ResumenOrder() {
+    const { data, updateData, formatNumber, setErrors, setIsLoading } = useReservation()
 
-export default function Step4ResumenOrder({ data, handleSubmit, stripe, formatNumber, updateData }) {
     const [discountInput, setDiscountInput] = useState("")
 
     const handleClickApplyCodeDiscount = async (e) => {
@@ -11,11 +14,11 @@ export default function Step4ResumenOrder({ data, handleSubmit, stripe, formatNu
             return
         }
         e.preventDefault()
-        updateData("isLoading", true)
-        updateData("errors", [])
-        console.log(data.discount.code)
-        try {
-            const response = await axios.post("/reservation/step_3_confirmation", {
+        setIsLoading(true)
+        setErrors([])
+
+        await apiClient
+            .post("/api/reservation/step_3_confirmation", {
                 start_date: data.startDate.toISOString().slice(0, 10), //format date 2020-12-12
                 end_date: data.endDate.toISOString().slice(0, 10),
                 adults: data.adults,
@@ -26,40 +29,49 @@ export default function Step4ResumenOrder({ data, handleSubmit, stripe, formatNu
                 ids_complements_cheked: data.complementsIds,
                 code: discountInput,
             })
-            updateData("complementsSelect", response.data.complements_cheked)
-            updateData("pricePorReservation", response.data.price_per_reservation)
-            updateData("subTotalPrice", response.data.sub_total_price)
-            updateData("totalPrice", response.data.total_price)
+            .then((response) => {
+                updateData("complementsSelect", response.data.complements_cheked)
+                updateData("pricePorReservation", response.data.price_per_reservation)
+                updateData("subTotalPrice", response.data.sub_total_price)
+                updateData("totalPrice", response.data.total_price)
 
-            if (response.data.discount) {
-                updateData("discount", response.data.discount)
-            }
-        } catch (errors) {
-            updateData("totalPrice", data.subTotalPrice)
-            updateData("discount", {
-                code: "",
-                amount: "",
-                percent: "",
+                if (response.data.discount) {
+                    updateData("discount", response.data.discount)
+                }
             })
-            ValidaterErrors(errors.response, updateData)
-        } finally {
-            updateData("isLoading", false)
-        }
+            .catch(function (errors) {
+                updateData("totalPrice", data.subTotalPrice)
+                updateData("discount", {
+                    code: "",
+                    amount: "",
+                    percent: "",
+                })
+                let msgErrors = ValidaterErrors(errors)
+                setErrors(msgErrors)
+            })
+            .then(function () {
+                setIsLoading(false)
+            })
     }
 
     return (
         <>
-            <h2 className="text-2xl font-medium mb-4 text-gray-800">Resumen de pedido</h2>
+            
             <TableData data={data} formatNumber={formatNumber}>
                 {/* input code discount */}
                 <div className="mb-10 font-normal text-sm ">
                     <label htmlFor="discount_input" className="mb-1 form-input-label">
                         Codigo descuento
+                        {data.discount.percent && (
+                            <div className="ml-2 inline-flex items-center">
+                                <span className="text-green-500 text-sm"> Descuento aplicado {data.discount.percent}%</span>
+                            </div>
+                        )}
                     </label>
                     <div className="flex">
                         <div className="flex-grow pr-2">
                             <input
-                                className="form-input"
+                                className="mt-1 form-input form-input-border-normal"
                                 id="discount_input"
                                 type="text"
                                 value={discountInput}

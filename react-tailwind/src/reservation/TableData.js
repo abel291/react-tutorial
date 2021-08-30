@@ -3,14 +3,14 @@ export default function TableData({ data, formatNumber,children},) {
     
     return (
         <div className=" text-sm bg-white border border-gray-200 rounded divide-y divide-gray-200 ">
-            <div className="px-6 py-4 space-y-2">
+            <div className="px-3 md:px-6 py-4 space-y-2">
                 <h3 className="font-bold text-center mb-2">Reserva</h3>
                 <div className="flex justify-between">
                     <span>Entrada</span>
                     <span>{data.startDate.toISOString().slice(0, 10)}</span>
                 </div>
                 <div className="flex justify-between">
-                    <span>Slaida</span>
+                    <span>Salida</span>
                     <span>{data.endDate.toISOString().slice(0, 10)}</span>
                 </div>
                 <div className="flex justify-between">
@@ -22,10 +22,10 @@ export default function TableData({ data, formatNumber,children},) {
                     <span>{data.kids}</span>
                 </div>
             </div>
-            <div className="px-6 py-4 space-y-2">
+            <div className="px-3 md:px-6 py-4 space-y-2">
                 <h3 className="font-bold text-center mb-2">Habitacion</h3>
                 <div className="flex justify-between">
-                    <span>Habitacion</span>
+                    <span>Nombre de habitacion</span>
                     <span>{data.roomSelected.name}</span>
                 </div>
 
@@ -52,7 +52,7 @@ export default function TableData({ data, formatNumber,children},) {
                 )}
             </div>
             {data.complementsSelect.length > 0 && (
-                <div className="px-6 py-4 space-y-2">
+                <div className="px-3 md:px-6 py-4 space-y-2">
                     <h3 className="font-bold text-center mb-2">Complementos</h3>
                     {data.complementsSelect.map((com) => (
                         <div key={com.id} className="flex justify-between ">
@@ -63,7 +63,7 @@ export default function TableData({ data, formatNumber,children},) {
                 </div>
             )}
 
-            <div className="px-6 py-4 space-y-2  font-semibold ">
+            <div className="px-3 md:px-6 py-4 space-y-2  font-semibold ">
                 {children}
 
                 <div className="flex justify-between">
@@ -77,7 +77,7 @@ export default function TableData({ data, formatNumber,children},) {
                     </div>
                 )}
             </div>
-            <div className="px-6 py-6 space-y-2">
+            <div className="px-3 md:px-6 py-4 space-y-2">
                 <div className="flex justify-between font-bold text-lg">
                     <span className="">Total</span>
                     <span>{formatNumber(data.totalPrice)}</span>
